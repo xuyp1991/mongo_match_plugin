@@ -83,16 +83,6 @@ public:
    uint32_t start_block_num = 0;
    std::atomic_bool start_block_reached{false};
 
-   bool is_producer = false;
-   bool filter_on_star = true;
-   bool update_blocks_via_block_num = false;
-   bool store_blocks = true;
-   bool store_block_states = true;
-   bool store_transactions = true;
-   bool store_transaction_traces = true;
-   bool store_action_traces = true;
-   uint32_t expire_after_seconds = 0;
-
    std::string db_name;
    mongocxx::instance mongo_inst;
    fc::optional<mongocxx::pool> mongo_pool;
@@ -170,8 +160,7 @@ void mongo_match_plugin_impl::applied_transaction( const chain::transaction_trac
       //
       // It is recommended to run mongo_match_plugin in read-mode = read-only.
       //
-      if( !is_producer && !t->producer_block_id.valid() )
-         return;
+
       // always queue since account information always gathered
       queue( transaction_trace_queue, t );
    } catch (fc::exception& e) {
