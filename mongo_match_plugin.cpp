@@ -380,8 +380,6 @@ void mongo_match_plugin_impl::modifyorder(const uint64_t &scope,const uint64_t &
 
    auto undone_base_coin = chain::asset::from_string(order_info->view()["order"]["undone_base_coin"].get_utf8().value.to_string());
    auto undone_quote_coin = chain::asset::from_string(order_info->view()["order"]["undone_quote_coin"].get_utf8().value.to_string());
-   auto base_coin = chain::asset::from_string(order_info->view()["order"]["base_coin"].get_utf8().value.to_string());
-   auto quote_coin = chain::asset::from_string(order_info->view()["order"]["quote_coin"].get_utf8().value.to_string());
    
    undone_base_coin -= base;
    undone_quote_coin -= quote;

@@ -11,7 +11,6 @@ using action_name    = eosio::chain::action_name;
 
 const static uint64_t match_account_name    = N(sys.match);
 
-
 struct openorder {
    account_name traders;
    asset base_coin;
@@ -131,11 +130,14 @@ struct order{
    void set_match_value( const match &a ) {
       scope = a.scope_base;
       order_id = a.base_id;
+      auto base_amount = base_coin.get_amount(),quote_amount = quote_coin.get_amount();
+      auto base_precision = base_coin.precision(),quote_pricision = quote_coin.precision();
       if (scope & 1) {
-         order_price = base_coin.get_amount() * 1000000 / quote_coin.get_amount();
+         
+         order_price = static_cast<uint64_t>(static_cast<uint128_t>(base_amount) * 1000000 * quote_pricision / base_amount / base_precision);
       }
       else {
-         order_price = quote_coin.get_amount() * 1000000 / base_coin.get_amount();
+         order_price = static_cast<uint64_t>(static_cast<uint128_t>(quote_amount) * 1000000 *base_precision / base_amount / quote_pricision);
       }
    }
 
